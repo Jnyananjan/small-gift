@@ -4,6 +4,33 @@
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+      #scanButton {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 24px;
+        font-size: 18px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #message {
+        position: fixed;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 16px;
+        color: red;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <a-scene 
@@ -14,53 +41,92 @@
     >
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- MindAR Image Targets -->
-      <a-assets>
-        <video id="video1" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//Batch2k25.mp4" webkit-playsinline playsinline></video>
-        <video id="video2" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//wirdos.mp4" webkit-playsinline playsinline></video>
-        <video id="video3" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//eatting.mp4" webkit-playsinline playsinline></video>
-        <video id="video4" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//u.mp4" webkit-playsinline playsinline></video>
-        <video id="video5" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//3idiot.mp4" webkit-playsinline playsinline></video>
-        <video id="video6" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//uno.mp4" webkit-playsinline playsinline></video>
-        <video id="video7" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//as.mp4" webkit-playsinline playsinline></video>
-        <video id="video8" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//ad.mp4" webkit-playsinline playsinline></video>
-      </a-assets>
-
-      <!-- Entities for Each Image Target -->
+      <!-- Image Targets and Videos -->
       <script>
-        const mindFiles = [
-          "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/batch2k25//Batch2k25.mind", "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/wirdos//wirdos.mind", "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/3idiot//3idiot.mind", "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/eatting//eatting.mind", 
-          "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/u//u.mind", "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/uno//uno.mind", "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/as//as.mind", "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ad//ad.mind"
+        const videoMapping = [
+          { image: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/batch2k25//Batch2k25.mind", video: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//Batch2k25.mp4" },
+          { image: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/wirdos//wirdos.mind", video: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//wirdos.mp4" },
+          { image: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/3idiot//3idiot.mind", video: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//3idiot.mp4" },
+          { image: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/eatting//eatting.mind", video: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//eatting.mp4" },
+          { image: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/u//u.mind", video: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//u.mp4" },
+          { image: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/uno//uno.mind", video: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//uno.mp4" },
+          { image: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/as//as.mind", video: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//as.mp4" },
+          { image: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ad//ad.mind", video: "https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//ad.mp4" }
         ];
-        const targets = [];
-
-        mindFiles.forEach((mindFile, i) => {
-          targets.push(`<a-entity mindar-image="imageTargetSrc: ${mindFile}" mindar-image-target="targetIndex: 0">
-            <a-video id="videoEntity${i + 1}" src="#video${i + 1}" width="1.5" height="1" visible="false"></a-video>
-          </a-entity>`);
-        });
-        document.write(targets.join(""));
       </script>
+
+      <a-entity id="targetEntities"></a-entity>
     </a-scene>
 
+    <video id="videoPlayer" playsinline webkit-playsinline style="display: none" preload="auto" crossorigin="anonymous"></video>
+    <button id="scanButton">Scan Now</button>
+    <div id="message">Try another image or try again.</div>
+
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        for (let i = 0; i < 8; i++) {
-          const targetEntity = document.querySelector(`[mindar-image-target='targetIndex: 0']`);
-          const video = document.getElementById(`video${i + 1}`);
-          const videoEntity = document.getElementById(`videoEntity${i + 1}`);
+      const video = document.getElementById("videoPlayer");
+      const scanButton = document.getElementById("scanButton");
+      const message = document.getElementById("message");
+      const targetEntities = document.getElementById("targetEntities");
+      
+      let targetFound = false;
+      let currentVideoPlane = null;
 
-          targetEntity.addEventListener("targetFound", () => {
-            videoEntity.setAttribute("visible", "true");
-            video.play();
-          });
+      videoMapping.forEach((item, index) => {
+        const entity = document.createElement("a-entity");
+        entity.setAttribute("mindar-image-target", `targetIndex: ${index}`);
+        entity.setAttribute("id", `targetEntity_${index}");
 
-          targetEntity.addEventListener("targetLost", () => {
-            video.pause();
-            video.currentTime = 0;
-            videoEntity.setAttribute("visible", "false");
-          });
+        const videoPlane = document.createElement("a-video");
+        videoPlane.setAttribute("id", `videoPlane_${index}");
+        videoPlane.setAttribute("position", "0 0 0");
+        videoPlane.setAttribute("width", "1.5");
+        videoPlane.setAttribute("height", "1");
+        videoPlane.setAttribute("rotation", "0 0 0");
+        videoPlane.setAttribute("material", "shader: flat");
+        videoPlane.setAttribute("visible", "false");
+
+        entity.appendChild(videoPlane);
+        targetEntities.appendChild(entity);
+      });
+
+      document.querySelector("a-scene").addEventListener("targetFound", (event) => {
+        targetFound = true;
+        const targetId = event.target.id;
+        const targetIndex = parseInt(targetId.split("_")[1]);
+        
+        video.src = videoMapping[targetIndex].video;
+        currentVideoPlane = document.getElementById(`videoPlane_${targetIndex}`);
+      });
+
+      document.querySelector("a-scene").addEventListener("targetLost", () => {
+        targetFound = false;
+        video.pause();
+        video.currentTime = 0;
+        if (currentVideoPlane) currentVideoPlane.setAttribute("visible", "false");
+      });
+
+      scanButton.addEventListener("click", async () => {
+        if (targetFound && currentVideoPlane) {
+          try {
+            await video.play();
+            currentVideoPlane.setAttribute("visible", "true");
+            currentVideoPlane.setAttribute("src", "#videoPlayer");
+            message.style.display = "none";
+          } catch (error) {
+            console.error("Error playing video:", error);
+            message.innerText = "Error playing video. Try again.";
+            message.style.display = "block";
+          }
+        } else {
+          message.style.display = "block";
+          setTimeout(() => {
+            message.style.display = "none";
+          }, 2000);
         }
+      });
+
+      video.addEventListener("ended", () => {
+        if (currentVideoPlane) currentVideoPlane.setAttribute("visible", "false");
       });
     </script>
   </body>
