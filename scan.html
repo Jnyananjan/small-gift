@@ -5,16 +5,22 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//all.mind; maxTrack: 8" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene 
+      mindar-image="imageTargetSrc: https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/all.mind; maxTrack: 8" 
+      color-space="sRGB" 
+      renderer="colorManagement: true, physicallyCorrectLights" 
+      vr-mode-ui="enabled: false" 
+      device-orientation-permission-ui="enabled: false"
+    >
       <a-assets>
-        <video id="video1" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//eatt.mp4" loop="true" playsinline></video>
-        <video id="video2" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//.mp4" loop="true" playsinline></video>
-        <video id="video3" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//un.mp4" loop="true" playsinline></video>
-        <video id="video4" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//wirdos.mp4" loop="true" playsinline></video>
-        <video id="video5" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//3idt.mp4" loop="true" playsinline></video>
-        <video id="video6" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//add.mp4" loop="true" playsinline></video>
-        <video id="video7" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//ass.mp4" loop="true" playsinline></video>
-        <video id="video8" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//Batch2k25.mp4" loop="true" playsinline></video>
+        <video id="video1" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/eatt.mp4" loop="true" playsinline></video>
+        <video id="video2" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/video2.mp4" loop="true" playsinline></video>
+        <video id="video3" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/un.mp4" loop="true" playsinline></video>
+        <video id="video4" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/wirdos.mp4" loop="true" playsinline></video>
+        <video id="video5" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/3idt.mp4" loop="true" playsinline></video>
+        <video id="video6" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/add.mp4" loop="true" playsinline></video>
+        <video id="video7" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/ass.mp4" loop="true" playsinline></video>
+        <video id="video8" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/Batch2k25.mp4" loop="true" playsinline></video>
       </a-assets>
       
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -48,10 +54,47 @@
     <button id="scanButton" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); padding: 10px 20px; font-size: 16px;">Scan Now</button>
 
     <script>
-      document.getElementById('scanButton').addEventListener('click', function() {
-        document.querySelectorAll('a-video').forEach(video => {
-          video.setAttribute('visible', 'true');
+      const videos = {
+        0: document.getElementById("vid1"),
+        1: document.getElementById("vid2"),
+        2: document.getElementById("vid3"),
+        3: document.getElementById("vid4"),
+        4: document.getElementById("vid5"),
+        5: document.getElementById("vid6"),
+        6: document.getElementById("vid7"),
+        7: document.getElementById("vid8"),
+      };
+
+      let currentPlaying = null;
+
+      document.querySelectorAll("[mindar-image-target]").forEach((target) => {
+        target.addEventListener("targetFound", () => {
+          let index = parseInt(target.getAttribute("mindar-image-target").targetIndex, 10);
+          
+          // Stop any currently playing video
+          if (currentPlaying) {
+            currentPlaying.setAttribute("visible", "false");
+            currentPlaying.components.material.material.map.image.pause();
+          }
+
+          // Play new video
+          let video = videos[index];
+          video.setAttribute("visible", "true");
           video.components.material.material.map.image.play();
+
+          currentPlaying = video;
+        });
+
+        target.addEventListener("targetLost", () => {
+          let index = parseInt(target.getAttribute("mindar-image-target").targetIndex, 10);
+          let video = videos[index];
+
+          if (video) {
+            video.setAttribute("visible", "false");
+            video.components.material.material.map.image.pause();
+          }
+
+          currentPlaying = null;
         });
       });
     </script>
