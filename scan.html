@@ -13,85 +13,97 @@
       device-orientation-permission-ui="enabled: false"
     >
       <a-assets>
-        <video id="video1" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/eatting.mp4" loop="true" playsinline></video>
-        <video id="video2" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/u.mp4" loop="true" playsinline></video>
-        <video id="video3" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/uno.mp4" loop="true" playsinline></video>
-        <video id="video4" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/wirdos.mp4" loop="true" playsinline></video>
-        <video id="video5" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/3idot.mp4" loop="true" playsinline></video>
-        <video id="video6" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/ad.mp4" loop="true" playsinline></video>
-        <video id="video7" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/as.mp4" loop="true" playsinline></video>
-        <video id="video8" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/Batch2k25.mp4" loop="true" playsinline></video>
+        <video id="video1" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/eatting.mp4" playsinline crossorigin></video>
+        <video id="video2" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/u.mp4" playsinline crossorigin></video>
+        <video id="video3" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/uno.mp4" playsinline crossorigin></video>
+        <video id="video4" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/wirdos.mp4" playsinline crossorigin></video>
+        <video id="video5" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/3idiot.mp4" playsinline crossorigin></video>
+        <video id="video6" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/ad.mp4" playsinline crossorigin></video>
+        <video id="video7" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/as.mp4" playsinline crossorigin></video>
+        <video id="video8" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/Batch2k25.mp4" playsinline crossorigin></video>
       </a-assets>
       
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
       
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-video id="vid1" src="#video1" position="0 0 0" scale="1 1 1" visible="false"></a-video>
+        <a-video id="vid1" position="0 0 0" visible="false"></a-video>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 1">
-        <a-video id="vid2" src="#video2" position="0 0 0" scale="1 1 1" visible="false"></a-video>
+        <a-video id="vid2" position="0 0 0" visible="false"></a-video>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 2">
-        <a-video id="vid3" src="#video3" position="0 0 0" scale="1 1 1" visible="false"></a-video>
+        <a-video id="vid3" position="0 0 0" visible="false"></a-video>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 3">
-        <a-video id="vid4" src="#video4" position="0 0 0" scale="1 1 1" visible="false"></a-video>
+        <a-video id="vid4" position="0 0 0" visible="false"></a-video>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 4">
-        <a-video id="vid5" src="#video5" position="0 0 0" scale="1 1 1" visible="false"></a-video>
+        <a-video id="vid5" position="0 0 0" visible="false"></a-video>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 5">
-        <a-video id="vid6" src="#video6" position="0 0 0" scale="1 1 1" visible="false"></a-video>
+        <a-video id="vid6" position="0 0 0" visible="false"></a-video>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 6">
-        <a-video id="vid7" src="#video7" position="0 0 0" scale="1 1 1" visible="false"></a-video>
+        <a-video id="vid7" position="0 0 0" visible="false"></a-video>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 7">
-        <a-video id="vid8" src="#video8" position="0 0 0" scale="1 1 1" visible="false"></a-video>
+        <a-video id="vid8" position="0 0 0" visible="false"></a-video>
       </a-entity>
     </a-scene>
 
     <script>
       const videos = {
-        0: document.getElementById("vid1"),
-        1: document.getElementById("vid2"),
-        2: document.getElementById("vid3"),
-        3: document.getElementById("vid4"),
-        4: document.getElementById("vid5"),
-        5: document.getElementById("vid6"),
-        6: document.getElementById("vid7"),
-        7: document.getElementById("vid8"),
+        0: { element: document.getElementById("vid1"), source: document.getElementById("video1") },
+        1: { element: document.getElementById("vid2"), source: document.getElementById("video2") },
+        2: { element: document.getElementById("vid3"), source: document.getElementById("video3") },
+        3: { element: document.getElementById("vid4"), source: document.getElementById("video4") },
+        4: { element: document.getElementById("vid5"), source: document.getElementById("video5") },
+        5: { element: document.getElementById("vid6"), source: document.getElementById("video6") },
+        6: { element: document.getElementById("vid7"), source: document.getElementById("video7") },
+        7: { element: document.getElementById("vid8"), source: document.getElementById("video8") },
       };
 
       let currentPlaying = null;
 
-      document.querySelectorAll("[mindar-image-target]").forEach((target) => {
-        target.addEventListener("targetFound", () => {
-          let index = parseInt(target.getAttribute("mindar-image-target").targetIndex, 10);
+      function updateVideoSize(video, entity) {
+        video.addEventListener("loadedmetadata", () => {
+          const aspectRatio = video.videoWidth / video.videoHeight;
+          const maxFrameSize = 1; // The video will fit inside a 1x1 frame (adjust as needed)
           
-          // Stop any currently playing video
+          if (aspectRatio > 1) {
+            // Landscape video
+            entity.setAttribute("width", maxFrameSize);
+            entity.setAttribute("height", maxFrameSize / aspectRatio);
+          } else {
+            // Portrait or square video
+            entity.setAttribute("height", maxFrameSize);
+            entity.setAttribute("width", maxFrameSize * aspectRatio);
+          }
+        });
+      }
+
+      document.querySelectorAll("[mindar-image-target]").forEach((target, index) => {
+        const videoEntity = videos[index].element;
+        const videoSource = videos[index].source;
+
+        updateVideoSize(videoSource, videoEntity);
+
+        target.addEventListener("targetFound", () => {
           if (currentPlaying) {
-            currentPlaying.setAttribute("visible", "false");
-            currentPlaying.components.material.material.map.image.pause();
+            currentPlaying.element.setAttribute("visible", "false");
+            currentPlaying.source.pause();
           }
 
-          // Play new video
-          let video = videos[index];
-          video.setAttribute("visible", "true");
-          video.components.material.material.map.image.play();
+          videoEntity.setAttribute("src", `#video${index + 1}`);
+          videoEntity.setAttribute("visible", "true");
+          videoSource.play();
 
-          currentPlaying = video;
+          currentPlaying = videos[index];
         });
 
         target.addEventListener("targetLost", () => {
-          let index = parseInt(target.getAttribute("mindar-image-target").targetIndex, 10);
-          let video = videos[index];
-
-          if (video) {
-            video.setAttribute("visible", "false");
-            video.components.material.material.map.image.pause();
-          }
-
+          videoEntity.setAttribute("visible", "false");
+          videoSource.pause();
           currentPlaying = null;
         });
       });
