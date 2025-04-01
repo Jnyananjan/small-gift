@@ -6,25 +6,30 @@
   </head>
   <body>
     <a-scene 
-      mindar-image="imageTargetSrc: https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/all.mind; maxTrack: 8" 
+      mindar-image="imageTargetSrc: https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/all.mind; maxTrack: 12" 
       color-space="sRGB" 
       renderer="colorManagement: true, physicallyCorrectLights" 
       vr-mode-ui="enabled: false" 
       device-orientation-permission-ui="enabled: false"
     >
       <a-assets>
-        <video id="video1" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/eatting.mp4" playsinline crossorigin></video>
-        <video id="video2" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/u.mp4" playsinline crossorigin></video>
-        <video id="video3" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/uno.mp4" playsinline crossorigin></video>
-        <video id="video4" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/wirdos.mp4" playsinline crossorigin></video>
-        <video id="video5" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/3idiot.mp4" playsinline crossorigin></video>
-        <video id="video6" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/ad.mp4" playsinline crossorigin></video>
-        <video id="video7" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/as.mp4" playsinline crossorigin></video>
+        <video id="video1" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/3iduot.mp4" playsinline crossorigin></video>
+        <video id="video2" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/ad.mp4" playsinline crossorigin></video>
+        <video id="video3" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/anku.mp4" playsinline crossorigin></video>
+        <video id="video4" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/ankuu.mp4" playsinline crossorigin></video>
+        <video id="video5" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/as.mp4" playsinline crossorigin></video>
+        <video id="video6" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/asr.mp4" playsinline crossorigin></video>
+        <video id="video7" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/asrr.mp4" playsinline crossorigin></video>
         <video id="video8" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/Batch2k25.mp4" playsinline crossorigin></video>
+        <video id="video9" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content//gd.mp4" playsinline crossorigin></video>
+        <video id="video10" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/u.mp4" playsinline crossorigin></video>
+        <video id="video11" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/uno.mp4" playsinline crossorigin></video>
+        <video id="video12" src="https://dhkyzhpqoreeytuyeioj.supabase.co/storage/v1/object/public/ar-content/wirdos.mp4" playsinline crossorigin></video>
       </a-assets>
       
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-      
+
+      <!-- Image Targets & Video Display -->
       <a-entity mindar-image-target="targetIndex: 0">
         <a-video id="vid1" position="0 0 0" visible="false"></a-video>
       </a-entity>
@@ -49,33 +54,40 @@
       <a-entity mindar-image-target="targetIndex: 7">
         <a-video id="vid8" position="0 0 0" visible="false"></a-video>
       </a-entity>
+      <a-entity mindar-image-target="targetIndex: 8">
+        <a-video id="vid9" position="0 0 0" visible="false"></a-video>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 9">
+        <a-video id="vid10" position="0 0 0" visible="false"></a-video>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 10">
+        <a-video id="vid11" position="0 0 0" visible="false"></a-video>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 11">
+        <a-video id="vid12" position="0 0 0" visible="false"></a-video>
+      </a-entity>
     </a-scene>
 
     <script>
-      const videos = {
-        0: { element: document.getElementById("vid1"), source: document.getElementById("video1") },
-        1: { element: document.getElementById("vid2"), source: document.getElementById("video2") },
-        2: { element: document.getElementById("vid3"), source: document.getElementById("video3") },
-        3: { element: document.getElementById("vid4"), source: document.getElementById("video4") },
-        4: { element: document.getElementById("vid5"), source: document.getElementById("video5") },
-        5: { element: document.getElementById("vid6"), source: document.getElementById("video6") },
-        6: { element: document.getElementById("vid7"), source: document.getElementById("video7") },
-        7: { element: document.getElementById("vid8"), source: document.getElementById("video8") },
-      };
+      const videos = {};
+      for (let i = 0; i < 12; i++) {
+        videos[i] = {
+          element: document.getElementById(`vid${i + 1}`),
+          source: document.getElementById(`video${i + 1}`)
+        };
+      }
 
       let currentPlaying = null;
 
       function updateVideoSize(video, entity) {
         video.addEventListener("loadedmetadata", () => {
           const aspectRatio = video.videoWidth / video.videoHeight;
-          const maxFrameSize = 1; // The video will fit inside a 1x1 frame (adjust as needed)
+          const maxFrameSize = 1; // The video fits inside a 1x1 frame
           
           if (aspectRatio > 1) {
-            // Landscape video
             entity.setAttribute("width", maxFrameSize);
             entity.setAttribute("height", maxFrameSize / aspectRatio);
           } else {
-            // Portrait or square video
             entity.setAttribute("height", maxFrameSize);
             entity.setAttribute("width", maxFrameSize * aspectRatio);
           }
